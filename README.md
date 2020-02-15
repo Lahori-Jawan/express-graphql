@@ -22,3 +22,7 @@ yarn dev
 
 `kubectl apply -f ./k8s/app.yaml`
 
+
+## How to interact with app
+
+Please see `guide` directory for visual assistance.
