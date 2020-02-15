@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: crud-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: crud-api
+  template:
+    metadata:
+      labels:
+        app: crud-api
+    spec:
+      containers:
+        - name: crud-server
+          image: 842750118asf7987/crud-alpine-glibc
+          ports:
+            - containerPort: 4000
+          imagePullPolicy: Always
+          resources: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: crud-service
+spec:
+  selector:
+    app: crud-api
+  ports:
+    - port: 4000
+      targetPort: 4000
+  type: LoadBalancer
