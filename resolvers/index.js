@@ -65,7 +65,7 @@ const resolvers = {
     async updateAccount(parent, args, context) {
 
       if(!context.user) throw new AuthenticationError('You must be logged in to perform this action')
-      console.log({verifiedUser: context.user})
+
       const id = context.user._id
 
       let { username, password = '',...rest } = args
