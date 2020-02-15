@@ -16,6 +16,8 @@ RUN yarn install --production
 
 COPY . .
 
+RUN yarn generate
+
 EXPOSE 4000
 
 ENV HOST 0.0.0.0

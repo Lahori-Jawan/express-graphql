@@ -3,7 +3,7 @@ const { PubSub, withFilter, AuthenticationError, UserInputError } = require('apo
 const { PrismaClient } = require('@prisma/client')
 const { createToken } = require('../auth/token');
 
-const client = new PrismaClient()
+const dbClient = new PrismaClient()
 
 // example data
 const me = 'Nasir Khan';
@@ -16,7 +16,7 @@ const pubsub = new PubSub();
 const resolvers = {
   Query: {
     hello: () => me,
-    users: async () => await client.user.findMany()
+    users: async () => await dbClient.user.findMany()
   },
 
   Mutation: {
@@ -25,7 +25,7 @@ const resolvers = {
       // 1
       const password = await bcrypt.hash(args.password, 10)
       // 2
-      const user = await client.user.create({
+      const user = await dbClient.user.create({
         data: {
           ...args, password
         }
@@ -44,7 +44,7 @@ const resolvers = {
 
     async login(parent, args) {
       // 1
-      const user = await client.user.findOne({ where: { username: args.username } });
+      const user = await dbClient.user.findOne({ where: { username: args.username } });
 
       if (!user) throw new UserInputError('No such user found')
 
@@ -65,6 +65,8 @@ const resolvers = {
     async updateAccount(parent, args, context) {
 
       if(!context.user) throw new AuthenticationError('You must be logged in to perform this action')
+      console.log({verifiedUser: context.user})
+      const id = context.user._id
 
       let { username, password = '',...rest } = args
       let user = null
@@ -76,8 +78,8 @@ const resolvers = {
 
       try {
         
-        user = await client.user.update({ 
-          where: { username: args.username },
+        user = await dbClient.user.update({ 
+          where: { id },
           data: { ...rest }
         });
       
@@ -94,9 +96,11 @@ const resolvers = {
 
       if(!context.user) throw new AuthenticationError('You must be logged in to perform this action');
 
+      const id = context.user._id
+
       try {
         
-        await client.user.delete({ where: { username: args.username } });
+        await dbClient.user.delete({ where: { id } });
       
       } catch (error) {
       

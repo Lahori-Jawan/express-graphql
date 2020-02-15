@@ -10,8 +10,8 @@ const schema = gql`
   type Mutation {
     signup(firstname: String!, lastname: String!, username: String!, password: String!): AuthPayload!
     login(username: String!, password: String!): AuthPayload!
-    updateAccount(firstname: String, lastname: String, password: String, username: String!): User!
-    deleteAccount(username: String!): Message!
+    updateAccount(firstname: String, lastname: String, password: String): User!
+    deleteAccount: Message!
   }
 
   type Subscription {
