@@ -13,9 +13,11 @@ yarn dev
 
 ## Docker
 
-`docker build -t ex-graphql .`
+```
+docker build -t ex-graphql .
 
-`docker run --rm -p 4000:4000 ex-graphql`
+docker run --rm -p 4000:4000 ex-graphql
+```
 
 
 ## Kubernetes (k8s)
@@ -25,4 +27,4 @@ yarn dev
 
 ## How to interact with app
 
-Please see `guide` directory for visual assistance.
+Please see `guide` directory.
